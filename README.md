@@ -1,7 +1,7 @@
 # GTA-SA-Mobile-DXT-viewer
 Просмотр текстур из архивов SAMP Mobile.
 
-- Открытие .txt файлов
+- Открытие индексных .txt файлов
 - Просмотр DXT1/DXT3/DXT5
 - Поиск по имени
 
@@ -13,7 +13,7 @@
 
 View textures from SAMP Mobile archives.
 
-- Open .txt files
+- Open index .txt files
 - View DXT1/DXT3/DXT5
 - Search by name
 
