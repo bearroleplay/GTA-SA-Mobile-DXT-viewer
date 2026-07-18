@@ -21,9 +21,7 @@ jobs:
           msystem: MINGW64
           install: |
             mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-gdiplus
-            mingw-w64-x86_64-winhttp
-            make
+            mingw-w64-x86_64-make
 
       - name: Compile
         shell: msys2 {0}
