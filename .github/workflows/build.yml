@@ -11,24 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show structure
-        run: |
-          Get-ChildItem -Recurse -Name
-
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compile
-        run: |
-          cd src
-          cl /O2 /EHsc /Fe:DXTViewer.exe ^
-            main.cpp ^
-            updater.cpp ^
-            archive.cpp ^
-            dxt.cpp ^
-            gui.cpp ^
-            logger.cpp ^
-            /link gdiplus.lib winhttp.lib shlwapi.lib user32.lib gdi32.lib
+        working-directory: src
+        run: cl /O2 /EHsc /Fe:DXTViewer.exe main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp /link gdiplus.lib winhttp.lib shlwapi.lib user32.lib gdi32.lib
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
