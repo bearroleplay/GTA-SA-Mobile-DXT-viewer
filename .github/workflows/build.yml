@@ -11,12 +11,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+      - name: Install MinGW
+        run: |
+          choco install mingw -y
+          echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Compile
+      - name: Compile with MinGW
         working-directory: src
-        run: cl /O2 /EHsc /Fe:DXTViewer.exe main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp /link gdiplus.lib winhttp.lib shlwapi.lib user32.lib gdi32.lib
+        run: |
+          g++ --version
+          g++ -O2 -static ^
+            main.cpp ^
+            updater.cpp ^
+            archive.cpp ^
+            dxt.cpp ^
+            gui.cpp ^
+            logger.cpp ^
+            -lgdiplus ^
+            -lwinhttp ^
+            -lshlwapi ^
+            -o DXTViewer.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
