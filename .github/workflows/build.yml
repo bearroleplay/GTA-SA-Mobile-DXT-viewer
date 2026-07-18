@@ -17,14 +17,21 @@ jobs:
           echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Compile with MinGW
-        working-directory: src
         run: |
           g++ --version
-          g++ -O2 -static main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp -lgdiplus -lwinhttp -lshlwapi -o DXTViewer.exe
+          g++ -std=c++17 -O2 -mwindows -DUNICODE -D_UNICODE ^
+            src\main.cpp ^
+            src\logger.cpp ^
+            src\archive.cpp ^
+            src\dxt.cpp ^
+            src\updater.cpp ^
+            src\gui.cpp ^
+            -o DXTViewer.exe ^
+            -lgdi32 -lgdiplus -lcomctl32 -lcomdlg32 -lwinhttp -lshell32 -luuid -lole32 -lpthread
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: DXTViewer-${{ github.sha }}
-          path: src/DXTViewer.exe
+          path: DXTViewer.exe
           retention-days: 7
