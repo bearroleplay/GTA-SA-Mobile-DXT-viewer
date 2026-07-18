@@ -1,0 +1,34 @@
+name: Build DXTViewer (Test)
+
+on:
+  push:
+    branches: [ main, master ] 
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MinGW
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+
+      - name: Compile
+        run: |
+          g++ -O2 -static \
+            main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp \
+            -lgdiplus -lwinhttp -lshlwapi -o DXTViewer.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DXTViewer-${{ github.sha }}
+          path: DXTViewer.exe
+          retention-days: 7
