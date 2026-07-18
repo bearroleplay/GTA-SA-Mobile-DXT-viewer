@@ -15,7 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Устанавливаем MSYS2 (более стабильный способ)
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
         with:
@@ -26,7 +25,6 @@ jobs:
             mingw-w64-x86_64-winhttp
             make
 
-      # Компилируем через MSYS2
       - name: Compile
         shell: msys2 {0}
         run: |
