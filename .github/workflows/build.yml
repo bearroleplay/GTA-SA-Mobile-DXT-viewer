@@ -20,17 +20,7 @@ jobs:
         working-directory: src
         run: |
           g++ --version
-          g++ -O2 -static ^
-            main.cpp ^
-            updater.cpp ^
-            archive.cpp ^
-            dxt.cpp ^
-            gui.cpp ^
-            logger.cpp ^
-            -lgdiplus ^
-            -lwinhttp ^
-            -lshlwapi ^
-            -o DXTViewer.exe
+          g++ -O2 -static main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp -lgdiplus -lwinhttp -lshlwapi -o DXTViewer.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
