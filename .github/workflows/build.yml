@@ -2,7 +2,7 @@ name: Build DXTViewer (Test)
 
 on:
   push:
-    branches: [ main, master ] 
+    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -15,12 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup MinGW
-        uses: egor-tensin/setup-mingw@v2
+      # Устанавливаем MSYS2 (более стабильный способ)
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
         with:
-          platform: x64
+          msystem: MINGW64
+          install: |
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-gdiplus
+            mingw-w64-x86_64-winhttp
+            make
 
+      # Компилируем через MSYS2
       - name: Compile
+        shell: msys2 {0}
         run: |
           g++ -O2 -static \
             main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp \
