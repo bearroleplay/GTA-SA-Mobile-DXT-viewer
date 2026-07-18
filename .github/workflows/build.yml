@@ -1,4 +1,4 @@
-name: Build DXTViewer (Test)
+name: Build DXTViewer
 
 on:
   push:
@@ -8,23 +8,17 @@ on:
 jobs:
   build:
     runs-on: windows-2022
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Check files
-        run: |
-          dir
-          echo "=== Checking for .cpp files ==="
-          dir *.cpp
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Compile with MinGW
+      - name: Compile
         run: |
-          g++ --version
-          g++ -O2 -static -std=c++17 ^
+          cl /O2 /EHsc /Fe:DXTViewer.exe ^
             main.cpp updater.cpp archive.cpp dxt.cpp gui.cpp logger.cpp ^
-            -lgdiplus -lwinhttp -lshlwapi -o DXTViewer.exe
+            /link gdiplus.lib winhttp.lib shlwapi.lib user32.lib gdi32.lib
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
